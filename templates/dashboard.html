@@ -85,10 +85,14 @@
 				<!-- Quick links start -->
 				<div class="sidebar-user-details">
 					<div class="user-profile">
-						<img src="static/img/user7.png" class="profile-thumb" alt="Admin Dashboards">
-						<span class="status-label"></span>
+    					{% if user.profile_picture %}
+        					<img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}" class="profile-thumb" alt="Admin Dashboard">
+    					{% else %}
+        					<img src="{{ url_for('static', filename='img/user1.png') }}" class="profile-thumb" alt="Admin Dashboard">
+    					{% endif %}
+    					<span class="status-label"></span>
 					</div>
-					<h6 class="profile-name">{{user}}</h6>
+					<h6 class="profile-name">{{user.name}}</h6>
 					<div class="profile-actions">
 						<a href="account-settings.html" class="blue-bg" data-toggle="tooltip" data-placement="top" title=""
 							data-original-title="Settings">
@@ -98,6 +102,7 @@
 							data-original-title="Logout">
 							<i class="icon-power1"></i>
 						</a>
+
 					</div>
 				</div>
 				<!-- Quick links end -->
@@ -116,10 +121,10 @@
 								<div class="sidebar-submenu">
 									<ul>
 										<li>
-											<a href="templates/index.html">Dashboard</a>
+											<a href="{{url_for('main.search_stock')}}">Search Stock</a>
 										</li>
 										<li>
-											<a href="dashboard2.html" class="current-page">Dashboard 2</a>
+											<a href="{{url_for('main.start_streamlit')}}" class="current-page">Create Chart</a>
 										</li>
 										<li>
 											<a href="dashboard3.html">Dashboard 3</a>
@@ -614,7 +619,11 @@
 										<li>
 											<a href="#">
 												<div class="user-img away">
-													<img src="static/img/user10.png" alt="Bootstrap Admin Panel">
+    												{% if user.profile_picture %}
+        												<img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}" alt="Bootstrap Admin Panel">
+    												{% else %}
+        												<img src="{{ url_for('static', filename='img/user1.png') }}" alt="Bootstrap Admin Panel">
+    												{% endif %}
 												</div>
 												<div class="details">
 													<div class="user-title">Abbott</div>
@@ -652,21 +661,31 @@
 							</li>
 							<li class="dropdown user-settings">
 								<a href="#" id="userSettings" data-toggle="dropdown" aria-haspopup="true">
-									<img src="static/img/user7.png" class="user-avatar" alt="Top Admin Dashboards">
+    								{% if user.profile_picture %}
+        								<img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}" class="user-avatar" alt="Top Admin Dashboards">
+									{% else %}
+        								<img src="{{ url_for('static', filename='img/user1.png') }}" class="user-avatar" alt="Top Admin Dashboards">
+    								{% endif %}
 								</a>
+
 								<div class="dropdown-menu dropdown-menu-right" aria-labelledby="userSettings">
 									<div class="header-profile-actions">
 										<div class="header-user-profile">
 											<div class="header-user">
-												<img src="static/img/user7.png" alt="Admin Template">
+    											{% if user.profile_picture %}
+        											<img src="{{ url_for('static', filename='uploads/' ~ user.profile_picture) }}" alt="Admin Template">
+    											{% else %}
+        											<img src="{{ url_for('static', filename='img/user1.png') }}" alt="Admin Template">
+    											{% endif %}
 											</div>
-											<h5>{{user}}</h5>
+											<h5>{{user.name}}</h5>
 											<p>User</p>
 										</div>
-										<a href="user-profile.html"><i class="icon-user1"></i> My Profile</a>
-										<a href="account-settings.html"><i class="icon-settings1"></i> Account Settings</a>
+										<a href="{{url_for('main.user_profile')}}"><i class="icon-user1"></i> My Profile</a>
+										<a href="{{url_for('main.account_settings')}}"><i class="icon-settings1"></i> Account Settings</a>
 										<a href="{{url_for('main.change_password')}}"><i class="icon-settings1"></i>Change Password</a>
 										<a href="{{url_for('main.logout')}}"><i class="icon-log-out1"></i> Sign Out</a>
+
 									</div>
 								</div>
 							</li>
@@ -678,13 +697,17 @@
 
 				<!-- Main container start -->
 				<div class="main-container">
+					<div class="my-4 flex items-center justify-end space-x-4">
+        					<button id="start-streamlit" class="bg-blue-600 hover:bg-blue-700 rounded-lg px-8 py-2 text-gray-100 hover:shadow-xl transition duration-150 uppercase">Start Chatbot</button>
+        					<button id="stop-streamlit" class="bg-red-600 hover:bg-red-700 rounded-lg px-8 py-2 text-gray-100 hover:shadow-xl transition duration-150 uppercase">Stop Chatbot</button>
+					</div>
 
 					<!-- Page header start -->
 					<div class="page-header">
 
 						<!-- Breadcrumb start -->
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item">Welcome,{{user}}</li>
+							<li class="breadcrumb-item">Welcome,{{user.name}}</li>
 						</ol>
 						<!-- Breadcrumb end -->
 
@@ -1394,6 +1417,15 @@
 		<script src="js/jquery.min.js"></script>
 		<script src="js/bootstrap.bundle.min.js"></script>
 		<script src="js/moment.js"></script>
+		<script>
+
+        window.history.pushState(null, null, window.location.href);
+        window.onpopstate = function () {
+            window.history.go(1);
+        };
+		console.log('djhj')
+
+		</script>
 
 
 		<!-- *************
@@ -1432,28 +1464,29 @@
         });
     	</script>
 		<script>
-			// Function to prevent navigation away from the locked screen page
-			function preventNavigation() {
-				// history.pushState(null, null, location.href);
-				/* window.onpopstate = function () {
-						history.go(1);
-				};*/
-				for(let i=0;i<=5;i++){
-					history.pushState(null, null, location.href);
+        document.getElementById('start-streamlit').addEventListener('click', function() {
+            fetch('/start-streamlit', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
 
-				}
-			}
+        document.getElementById('stop-streamlit').addEventListener('click', function() {
+            fetch('/stop-streamlit', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Response:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    </script>
 
-
-			// Call the function when the page loads
-			window.onload(preventNavigation())
-			// history.pushState(null, null, location.href);
-			function preback() {
-            window.history.forward();
-        	}
-        	setTimeout(preback(),0)
-        	window.onunload=function(){null}
-		</script>
 	</div>
 	</body>
 
