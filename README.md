@@ -7,67 +7,115 @@ ___
 Our project aims to provide a robust solution for stock analysis, empowering users to evaluate US companies effectively. By leveraging interactive tools and visualizations, our code facilitates the exploration of crucial financial metrics like Return on Investment (ROI) and free cash flows. This enables users to make informed investment decisions based on real-time performance data, enhancing their ability to navigate the complexities of financial markets with confidence.
 Our project utilizes CrewAI to streamline financial data analysis and reporting tasks .For more on this check out [Joao Moura's Github](https://github.com/joaomdmoura)
 
-## The Tasks
-
-1.Generate Financial Charts: Creates charts that provide insights into company performance.
-
-2.Alert Settings: Allows users to set alerts for significant stock price changes, providing news on possible reasons for fluctuations.
-
-3.Fluctuation Visualization: Displays price fluctuations throughout the year, aiding in understanding market trends.
-
-4.Annotation Feature: Enables users to make annotations to track events influencing stock prices over time.
-
-## Getting started
+## Project SetUp/Installation Instructions
 ___
-To get started with Stock Analysis Tools, follow these simple steps:
+### Dependencies
+* Flask  
+[Flask link](https://pypi.org/project/Flask/)
 
-1. Installation
-pip install crewai
-If you want to install the 'crewai' package along with its optional features that include additional tools for agents, you can do so by using the following command: pip install 'crewai[tools]'. This command installs the basic package and also adds extra components which require more dependencies to function."
+* CrewAi  
+[Joao Moura's Github](https://github.com/joaomdmoura)
 
-pip install 'crewai[tools]'
+* QuickFs API  
+[QuickFs link](https://quickfs.net/)
 
-2.Flask: Web framework for Python.
-pip install Flask
 
-3.Plotly: Python graphing library for creating interactive plots and charts.
-pip install plotly
-4.Pandas: Data manipulation and analysis library.
 
-5.Requests: HTTP library for making requests and retrieving data from APIs.
 
-6.SQLAlchemy: SQL toolkit and Object-Relational Mapping (ORM) for Python.
+### Installation Steps
 
-7.Requests-HTML: Library for web scraping and parsing HTML.
+1. Clone the repository in your own local file:
+```
+git clone https://github.com/Sal-Has/Stock-Analysis-with-CrewAi.git
 
-Project Structure
 
-project-root/
-├── app/
-│   ├── __init__.py
-│   ├── routes.py
-│   ├── models.py
-│   ├── forms.py
-│   ├── static/
-│   │   ├── css/
-│   │   ├── js/
-│   │   └── images/
-│   └── templates/
-│       ├── layout.html
-│       ├── index.html
-│       ├── searchstock.html
-│       ├── watchlist.html
-│       └── dashboard.html
-├── instance/
-│   └── config.py
-├── migrations/
-│   └── versions/
-├── tests/
-│   └── test_app.py
-├── scripts/
-│   ├── data_scraper.py
-│   └── analysis.py
+```
+2. Create a virtual environment and activate it:
+```
+python -m venv venv
+
+venv\Scripts\activate
+
+```
+
+
+3. Install the required packages:
+```
+pip install -r requirements.txt
+
+```
+4. Run the development server:
+```
+flask run
+
+```
+## Usage Instructions
+___
+
+### How to Run
+1. Ensure the virtual environment is activated.
+2. Run the Flask development sever:
+```
+flask run
+
+```
+
+3. Access the web application in your browser at http://127.0.0.1:5000
+
+### Examples  
+
+* Generate Financial Charts: Creates charts that provide insights into company performance.
+
+* Alert Settings: Allows users to set alerts for significant stock price changes, providing news on possible reasons for fluctuations.
+
+* Fluctuation Visualization: Displays price fluctuations throughout the year, aiding in understanding market trends.
+
+* Annotation Feature: Enables users to make annotations to track events influencing stock prices over time.  
+
+### Input/Output
+* Input: The company ticker and the specific metric you would a chart for
+
+## Project Structure
+___
+### Overview
+
+```
+RegisterandLogin/
+│
+├── .venv/
+│   └── library root
+├── crew/
+├── crewai/
+├── static/
+│   ├── css/
+│   ├── flags/
+│   ├── fonts/
+│   └── img/
+│       ├── uploads/
+│       │   └── my_script.js
+│       └── script.js
+├── templates/
+├── .env
+├── .streamlit-running
+├── __init__.py
 ├── config.py
-├── run.py
+├── forms.py
+├── models.py
+├── project_structure.md
+├── README.md
 ├── requirements.txt
-└── README.md
+├── run.py
+├── stock.png
+├── streamlit_app.py
+├── tempCodeRunnerFile.python
+└── views.py
+
+
+```
+
+
+ 
+
+
+
+
